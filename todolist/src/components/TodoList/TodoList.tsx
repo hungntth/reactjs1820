@@ -14,8 +14,8 @@ const TodoList = () => {
     const handleDoneTodo = (id: string, done: boolean) => {
         setTodo(prev => {
             return prev.map(todo => {
-                if(todo.id === id){
-                    return {...todo, done}
+                if (todo.id === id) {
+                    return { ...todo, done }
                 }
                 return todo
             })
@@ -30,18 +30,18 @@ const TodoList = () => {
         }
         setTodo((prev) => [...prev, todo])
     }
-    
-    const startEditTodo = (id:string) => {
+
+    const startEditTodo = (id: string) => {
         const findedTodo = todo.find((todo) => todo.id === id);
-        if(findedTodo){
+        if (findedTodo) {
             setCurrentTodo(findedTodo)
         }
     }
 
     const editTodo = (name: string) => {
         setCurrentTodo((prev) => {
-            if(prev){
-                return {...prev, name}
+            if (prev) {
+                return { ...prev, name }
             }
             return null
         });
@@ -50,7 +50,7 @@ const TodoList = () => {
     const editFinishTodo = () => {
         setTodo((prev) => {
             return prev.map(todo => {
-                if(todo.id === (currentTodo as Todo).id){
+                if (todo.id === (currentTodo as Todo).id) {
                     return currentTodo as Todo
                 } return todo
             })
@@ -58,13 +58,29 @@ const TodoList = () => {
         setCurrentTodo(null)
     }
 
+
+    const deleteTodo = (id: string) => {
+        if(currentTodo){
+            setCurrentTodo(null)
+        }
+        setTodo((prev) => {
+            const findedIndexTodo = prev.findIndex(todo => todo.id === id)
+            if (findedIndexTodo > -1) {
+                const result = [...prev]
+                prev.splice(findedIndexTodo, 1);
+                return result
+            }
+            return prev
+        })
+    }
+
     return (
         <div className={styles.todoList}>
             <div className={styles.todoListContainer}>
                 TodoList
-                <TaskInput addTodo={addTodo} currentTodo={currentTodo} editTodo={editTodo} editFinishTodo={editFinishTodo}/>
-                <TaskList doneTaskList ={false} todos={notDoneTodos} handleDoneTodo={handleDoneTodo} startEditTodo={startEditTodo}/>
-                <TaskList doneTaskList ={true} todos={doneTodos} handleDoneTodo={handleDoneTodo} startEditTodo={startEditTodo}/>
+                <TaskInput addTodo={addTodo} currentTodo={currentTodo} editTodo={editTodo} editFinishTodo={editFinishTodo} />
+                <TaskList doneTaskList={false} todos={notDoneTodos} handleDoneTodo={handleDoneTodo} startEditTodo={startEditTodo} deleteTodo={deleteTodo} />
+                <TaskList doneTaskList={true} todos={doneTodos} handleDoneTodo={handleDoneTodo} startEditTodo={startEditTodo} deleteTodo={deleteTodo} />
             </div>
         </div>
     );

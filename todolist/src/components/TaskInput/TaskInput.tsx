@@ -34,6 +34,7 @@ const TaskInput = (props: TaskInputProps) => {
         }
     }
 
+
     return (
         <div className = 'mb-2'>
             <h1 className={styles.title}>To do list typeScript</h1>
